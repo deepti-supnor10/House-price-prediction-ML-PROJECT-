@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</head>
+<body>
+
+
+    <header>
+        <h1>Welcome to House Price Prediction</h1>
+        <p>Get an estimate of your dream home's price</p>
+    </header>
+
+    <h2>Prediction Form</h2>
+    <form method="POST" action="/predict">
+        <label for="location">Location:</label>
+        <select id="location" name="location">
+            {% for location in locations %}
+            <option value="{{ location }}">{{ location }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Total Sqft:</label><br>
+        <div class="option-group">
+            {% for sqft_option in [1000, 1500, 2000, 2500, 3000] %}
+            <button type="button" class="option-button" data-value="{{ sqft_option }}">{{ sqft_option }}</button>
+            {% endfor %}
+            <input type="hidden" id="sqft-input" name="sqft" value="1500">
+        </div>
+        <br><br>
+
+        <label>Bathrooms:</label><br>
+        <div class="option-group">
+            {% for bath_option in [1, 2, 3, 4, 5] %}
+            <button type="button" class="option-button" data-value="{{ bath_option }}">{{ bath_option }}</button>
+            {% endfor %}
+            <input type="hidden" id="bath-input" name="bath" value="2">
+        </div>
+        <br><br>
+
+        <label>BHK:</label><br>
+        <div class="option-group">
+            {% for bhk_option in [1, 2, 3, 4, 5] %}
+            <button type="button" class="option-button" data-value="{{ bhk_option }}">{{ bhk_option }}</button>
+            {% endfor %}
+            <input type="hidden" id="bhk-input" name="bhk" value="2">
+        </div>
+        <br><br>
+
+        <button type="submit">Predict Price</button>
+    </form>
+
+    {% if prediction_text %}
+    <div id="prediction-result">
+        <h3>{{ prediction_text }}</h3>
+    </div>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
